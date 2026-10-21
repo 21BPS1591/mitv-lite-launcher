@@ -1,10 +1,10 @@
 # MiTV Lite Launcher
 
-A tiny, fast, ad-free home screen for Xiaomi Mi TV (developed and tested on a Mi TV running Android 9). Built for low-RAM TVs where PatchWall and the Google TV launcher lag.
+A tiny, fast, ad-free home screen for Xiaomi Mi TV (developed and tested on a Mi TV 3A running Android 9). Built for low-RAM TVs where PatchWall and the Google TV launcher lag.
 
 ![Screenshot](docs/screenshot.png)
 
-Measured on a Xiaomi Mi TV (1 GB RAM, Android 9), launcher on screen after ~25 s idle:
+Measured on a Xiaomi Mi TV 3A (1 GB RAM, Android 9), launcher on screen after ~25 s idle:
 
 |                                        | Stock (Google TV launcher + Xiaomi/Google apps) | **MiTV Lite Launcher + debloat** |
 |----------------------------------------|------------------------------------------------:|---------------------------------:|
@@ -28,7 +28,7 @@ Plain Android Views + Kotlin. No AndroidX, no libraries, no network access, no t
 - Now-playing bar for Spotify (title, artist, cover, previous / play-pause / next) in the header; appears only while Spotify has a session
 - Settings shortcut (gear icon)
 - Updates automatically when apps are installed or removed
-- Android 5.0+ (API 21); tested on Xiaomi Mi TV (Android 9)
+- Android 5.0+ (API 21); tested on Xiaomi Mi TV 3A (Android 9)
 
 ## Install
 
