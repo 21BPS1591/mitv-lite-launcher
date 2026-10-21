@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/edge"
+        android:paddingTop="28dp"
+        android:paddingEnd="@dimen/edge"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:textColor="#E6FFFFFF"
+            android:textSize="22sp" />
+
+        <View
+            android:id="@+id/media_gap_start"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/media_bar"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/media_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/media_art"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/art_bg"
+                android:padding="12dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_music" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/media_title_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="true">
+
+                    <TextView
+                        android:id="@+id/media_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/media_artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="#99FFFFFF"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/media_prev"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/btn_bg"
+                android:contentDescription="@string/media_prev"
+                android:focusable="true"
+                android:src="@drawable/ic_prev" />
+
+            <ImageButton
+                android:id="@+id/media_play"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="2dp"
+                android:background="@drawable/btn_bg"
+                android:contentDescription="@string/media_play"
+                android:focusable="true"
+                android:src="@drawable/ic_play" />
+
+            <ImageButton
+                android:id="@+id/media_next"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="2dp"
+                android:background="@drawable/btn_bg"
+                android:contentDescription="@string/media_next"
+                android:focusable="true"
+                android:src="@drawable/ic_next" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/net_wifi"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="18dp"
+            android:contentDescription="@string/net_wifi"
+            android:src="@drawable/ic_wifi"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/hidden"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/btn_bg"
+            android:contentDescription="@string/hidden_apps"
+            android:focusable="true"
+            android:src="@drawable/ic_hidden" />
+
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/btn_bg"
+            android:contentDescription="@string/settings"
+            android:focusable="true"
+            android:src="@drawable/ic_settings" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:format12Hour="h:mm"
+                android:format24Hour="HH:mm"
+                android:textColor="#FFFFFF"
+                android:textSize="34sp" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="EEE, d MMM"
+                android:format24Hour="EEE, d MMM"
+                android:textColor="#99FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/area"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipChildren="false"
+        android:paddingStart="24dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="14dp">
+
+        <GridLayout
+            android:id="@+id/grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clipChildren="false"
+            android:columnCount="5" />
+    </FrameLayout>
+
+</LinearLayout>
