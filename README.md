@@ -26,11 +26,11 @@ Plain Android Views + Kotlin. No AndroidX, no libraries, no network access, no t
 ## Install
 
 1. On the TV, enable **Developer options** (Settings → Device Preferences → About → click *Build* 7 times), then turn on **USB debugging** / network debugging.
-2. Build or obtain the APK and install it:
+2. Download the APK from the [Releases page](../../releases) (or build it yourself) and install it:
 
    ```bash
    adb connect <TV_IP>:5555
-   adb install lite-tv-launcher-v1.0.apk
+   adb install mitv-lite-launcher-v1.0.apk
    adb shell cmd package set-home-activity dev.lite.launcher/.MainActivity
    ```
 
