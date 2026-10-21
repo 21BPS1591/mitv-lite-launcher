@@ -19,8 +19,8 @@ echo "Installing launcher..."
 $T install -r "$APK" || exit 1
 $T shell cmd package set-home-activity dev.lite.launcher/.MainActivity
 
-if ! $T shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | grep -q dev.lite.launcher; then
-  echo "Launcher is not the default home yet; stopping before touching anything else."; exit 1
+if ! $T shell cmd package query-activities --brief -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null | grep -q dev.lite.launcher; then
+  echo "Launcher did not register as a home app; stopping before touching anything else."; exit 1
 fi
 
 if [ "$KEEP" = 0 ]; then
@@ -28,9 +28,18 @@ if [ "$KEEP" = 0 ]; then
   grep -vE '^\s*(#|$)' "$DIR/debloat/remove.txt" | tr -d '\r' | while read -r p; do
     printf '  %s: ' "$p"; $T shell pm uninstall -k --user 0 "$p" </dev/null | tr -d '\r'
   done
-  echo "Disabling stock launchers..."
-  grep -vE '^\s*(#|$)' "$DIR/debloat/disable.txt" | tr -d '\r' | while read -r p; do
-    printf '  %s: ' "$p"; $T shell pm disable-user --user 0 "$p" </dev/null 2>&1 | head -2 | tr -d '\r'
-  done
+fi
+
+# The stock launchers outrank this one, so they must be disabled for it to become home.
+echo "Disabling stock launchers..."
+grep -vE '^\s*(#|$)' "$DIR/debloat/disable.txt" | tr -d '\r' | while read -r p; do
+  printf '  %s: ' "$p"; $T shell pm disable-user --user 0 "$p" </dev/null 2>&1 | head -2 | tr -d '\r'
+  $T shell am force-stop "$p" </dev/null >/dev/null 2>&1
+done
+
+if ! $T shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME </dev/null | grep -q dev.lite.launcher; then
+  echo "Launcher is not the home app after disabling the stock launchers. Rolling back."
+  grep -vE '^\s*(#|$)' "$DIR/debloat/disable.txt" | tr -d '\r' | while read -r p; do $T shell pm enable "$p" </dev/null >/dev/null 2>&1; done
+  exit 1
 fi
 echo "Done. Press Home on the remote."

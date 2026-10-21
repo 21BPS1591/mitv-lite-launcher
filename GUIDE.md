@@ -35,13 +35,13 @@ The first time, the TV shows **"Allow USB debugging?"**. Choose **Always allow**
 The script will, in order:
 
 1. install the launcher,
-2. set it as the default home screen (and verify it worked before continuing),
+2. register it as a home app,
 3. uninstall the bloatware listed in [`debloat/remove.txt`](debloat/remove.txt) for the current user,
-4. disable the stock launchers listed in [`debloat/disable.txt`](debloat/disable.txt).
+4. disable the stock launchers listed in [`debloat/disable.txt`](debloat/disable.txt) (they outrank this launcher, so this is what makes it the home screen), and verify it, rolling back if not.
 
 Press **Home** on the remote. Done.
 
-Want only the launcher, no debloating? `./install.sh <IP> --keep-bloat` (Windows: `set KEEP_BLOAT=1` first).
+Want to keep the stock apps? `./install.sh <IP> --keep-bloat` (Windows: `set KEEP_BLOAT=1` first) skips removing apps but still disables the stock launchers, which is required for this launcher to become home.
 
 ## What gets removed
 
@@ -71,6 +71,7 @@ This re-enables the stock launchers and restores every removed app from the TV's
 
 - **`Cannot reach <IP>:5555`**: network debugging is off, wrong IP, or the TV is on a different network. Re-check step 1.
 - **`unauthorized`**: accept the prompt on the TV screen.
-- **Black screen after Home**: never disable all home apps without a working launcher. The script verifies this before disabling anything; if it ever happens, run `restore.sh`.
+- **Black screen after Home**: never disable all home apps without a working launcher. The script verifies the launcher took over after disabling the stock ones and rolls back if not; if it ever happens anyway, run `restore.sh`.
 - **Other Mi TV models**: package names can differ. List what's installed with `adb shell pm list packages` and edit `debloat/*.txt`.
 - The now-playing bar supports Spotify only.
+- **`Unknown package` errors** while disabling or restoring are harmless: your TV model simply does not have that package.

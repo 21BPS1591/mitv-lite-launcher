@@ -4,10 +4,17 @@ A tiny, fast, ad-free home screen for Xiaomi Mi TV (developed and tested on a Mi
 
 ![Screenshot](docs/screenshot.png)
 
-|            | Google TV launcher | FLauncher | **MiTV Lite Launcher** |
-|------------|-------------------:|----------:|---------------------:|
-| APK size   | —                  | 26 MB     | **~44 KB**           |
-| RAM (PSS)  | ~164 MB            | ~43 MB    | **~22 MB**           |
+Measured on a Xiaomi Mi TV (1 GB RAM, Android 9), launcher on screen after ~25 s idle:
+
+|                                        | Stock (Google TV launcher + Xiaomi/Google apps) | **MiTV Lite Launcher + debloat** |
+|----------------------------------------|------------------------------------------------:|---------------------------------:|
+| Launcher process (PSS)                 | 61 MB                                           | **29-40 MB**                     |
+| Home-related processes (launcher, voice search, recommendations, PatchWall, analytics) | ~172 MB | **~34 MB (launcher only)** |
+| Available RAM (`MemAvailable`)         | ~203 MB                                         | **~390 MB**                      |
+| Used app memory (PSS)                  | ~567 MB                                         | **~490 MB**                      |
+| APK size                               | n/a                                             | **~53 KB**                       |
+
+Numbers vary run to run (the launcher grows a little while a Spotify cover is shown); the TV was not rebooted between runs.
 
 Plain Android Views + Kotlin. No AndroidX, no libraries, no network access, no tracking.
 

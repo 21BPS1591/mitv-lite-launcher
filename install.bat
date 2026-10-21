@@ -17,18 +17,25 @@ set "T=adb -s %IP%:5555"
 echo Installing launcher...
 %T% install -r "%APK%" || exit /b 1
 %T% shell cmd package set-home-activity dev.lite.launcher/.MainActivity
-%T% shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | findstr /c:"dev.lite.launcher" >nul || (echo Launcher is not the default home yet; stopping before touching anything else. & exit /b 1)
+%T% shell cmd package query-activities --brief -a android.intent.action.MAIN -c android.intent.category.HOME | findstr /c:"dev.lite.launcher" >nul || (echo Launcher did not register as a home app; stopping before touching anything else. & exit /b 1)
 
-if "%KEEP_BLOAT%"=="1" goto done
+if "%KEEP_BLOAT%"=="1" goto stock
 echo Removing bloatware...
 for /f "usebackq eol=# tokens=*" %%p in ("%DIR%debloat\remove.txt") do (
   echo   %%p
   %T% shell pm uninstall -k --user 0 %%p
 )
+:stock
+rem The stock launchers outrank this one, so they must be disabled for it to become home.
 echo Disabling stock launchers...
 for /f "usebackq eol=# tokens=*" %%p in ("%DIR%debloat\disable.txt") do (
   echo   %%p
   %T% shell pm disable-user --user 0 %%p
+  %T% shell am force-stop %%p >nul 2>&1
 )
+%T% shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | findstr /c:"dev.lite.launcher" >nul && goto done
+echo Launcher is not the home app after disabling the stock launchers. Rolling back.
+for /f "usebackq eol=# tokens=*" %%p in ("%DIR%debloat\disable.txt") do %T% shell pm enable %%p >nul 2>&1
+exit /b 1
 :done
 echo Done. Press Home on the remote.
