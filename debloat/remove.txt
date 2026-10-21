@@ -1,0 +1,21 @@
+# Packages removed for the current user (pm uninstall -k --user 0).
+# Reversible: restore.sh / restore.bat bring them back from the TV's system image.
+# One package per line. Lines starting with # are ignored.
+com.google.android.backdrop
+com.google.android.katniss
+com.google.android.marvin.talkback
+com.google.android.play.games
+com.google.android.tts
+com.google.android.tvrecommendations
+com.google.android.videos
+com.google.android.youtube.tv
+com.google.android.youtube.tvmusic
+com.mitv.dream
+com.mitv.gallery
+com.mitv.tvhome.atv
+com.mitv.tvhome.mitvplus
+com.mitv.videoplayer
+com.miui.tv.analytics
+com.xiaomi.mimusic2
+com.xiaomi.mitv.handbook
+com.xiaomi.statistic

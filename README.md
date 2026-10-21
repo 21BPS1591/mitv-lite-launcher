@@ -25,6 +25,10 @@ Plain Android Views + Kotlin. No AndroidX, no libraries, no network access, no t
 
 ## Install
 
+**Easiest:** follow the [Setup guide](GUIDE.md): one command installs the launcher and debloats the TV (reversible).
+
+Manual steps:
+
 1. On the TV, enable **Developer options** (Settings → Device Preferences → About → click *Build* 7 times), then turn on **USB debugging** / network debugging.
 2. Download the APK from the [Releases page](../../releases) (or build it yourself) and install it:
 

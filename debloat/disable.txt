@@ -1,0 +1,5 @@
+# Stock launchers, disabled (pm disable-user --user 0) only AFTER this launcher is set as home.
+com.google.android.tvlauncher
+com.google.android.leanbacklauncher
+com.google.android.leanbacklauncher.recommendations
+com.google.android.apps.tv.launcherx
