@@ -14,4 +14,8 @@
     <string name="media_play">Play / pause</string>
     <string name="media_next">Next</string>
     <string name="move_hint">Use arrows to move · OK to finish</string>
+    <string name="update">Update available</string>
+    <string name="updating">Downloading update…</string>
+    <string name="update_failed">Update failed</string>
+    <string name="whats_new">What’s new in %1$s</string>
 </resources>

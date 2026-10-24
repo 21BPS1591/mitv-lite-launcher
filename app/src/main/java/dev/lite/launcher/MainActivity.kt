@@ -43,6 +43,7 @@ private const val MAX_TILE_DP = 160
 private const val MAX_ASPECT = 16f / 9
 private const val MIN_ASPECT = 16f / 9
 private const val TILE_GAP_DP = 10
+private const val UPDATE_CHECK_MS = 6 * 60 * 60_000L
 private const val PAUSE_GRACE_MS = 15 * 60_000L
 private const val DEFAULT_TILE = 0xFF262D3B.toInt()
 
@@ -79,6 +80,9 @@ class MainActivity : Activity() {
     private var placeholderShown = false
     private var shownPlaying: Boolean? = null
     private var browser: MediaBrowser? = null
+    private lateinit var updateButton: View
+    private var pendingUpdate: Update? = null
+    private var lastUpdateCheck = 0L
     private val hideBar = Runnable { mediaBar.visibility = View.GONE }
     private val controllerCallback = object : MediaController.Callback() {
         override fun onMetadataChanged(metadata: MediaMetadata?) = showTrack()
@@ -128,6 +132,9 @@ class MainActivity : Activity() {
             else c.transportControls.play()
         }
 
+        updateButton = findViewById(R.id.update)
+        updateButton.setOnClickListener { installUpdate() }
+
         wifiIcon = findViewById(R.id.net_wifi)
         connectivity = getSystemService(ConnectivityManager::class.java)
         connectivity.registerNetworkCallback(NetworkRequest.Builder().build(), networkCallback)
@@ -148,6 +155,55 @@ class MainActivity : Activity() {
         super.onResume()
         updateTitle()
         connectSpotify()
+        checkForUpdate()
+        showWhatsNew()
+    }
+
+    /** After an update, tell the user what changed once; a fresh install just records the version. */
+    private fun showWhatsNew() {
+        val current = packageManager.getPackageInfo(packageName, 0).versionName ?: return
+        val seen = prefs.seenVersion
+        if (seen == current) return
+        if (seen == null) {
+            prefs.seenVersion = current
+            return
+        }
+        io.execute {
+            val notes = Updater.notes(current)
+            runOnUiThread {
+                prefs.seenVersion = current
+                if (notes == null || isFinishing) return@runOnUiThread
+                AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.whats_new, current))
+                    .setMessage(notes)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
+            }
+        }
+    }
+
+    /** At most one GitHub check every few hours; the header icon appears only when a newer release exists. */
+    private fun checkForUpdate() {
+        val now = System.currentTimeMillis()
+        if (now - lastUpdateCheck < UPDATE_CHECK_MS) return
+        lastUpdateCheck = now
+        io.execute {
+            val found = Updater.check(this)
+            runOnUiThread {
+                pendingUpdate = found
+                updateButton.visibility = if (found != null) View.VISIBLE else View.GONE
+            }
+        }
+    }
+
+    private fun installUpdate() {
+        val update = pendingUpdate ?: return
+        Toast.makeText(this, R.string.updating, Toast.LENGTH_LONG).show()
+        io.execute {
+            if (!Updater.install(this, update)) {
+                runOnUiThread { Toast.makeText(this, R.string.update_failed, Toast.LENGTH_SHORT).show() }
+            }
+        }
     }
 
     override fun onPause() {

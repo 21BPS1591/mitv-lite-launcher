@@ -53,6 +53,11 @@ class Prefs(ctx: Context) {
         get() = sp.getString("order", "")!!.split(',').filter { it.isNotEmpty() }
         set(value) = sp.edit().putString("order", value.joinToString(",")).apply()
 
+    /** Version whose release notes were last shown; null on a fresh install. */
+    var seenVersion: String?
+        get() = sp.getString("seenVersion", null)
+        set(value) = sp.edit().putString("seenVersion", value).apply()
+
     var hidden: Set<String>
         get() = sp.getStringSet("hidden", emptySet())!!.toSet()
         set(value) = sp.edit().putStringSet("hidden", value).apply()}

@@ -11,8 +11,9 @@ android {
         applicationId = "dev.lite.launcher"
         minSdk = 21
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        // CI passes these from the release tag (vX.Y.Z -> X.Y.Z, X*10000+Y*100+Z) so every release outranks the last.
+        versionCode = providers.gradleProperty("liteVersionCode").orNull?.toInt() ?: 10100
+        versionName = providers.gradleProperty("liteVersionName").orNull ?: "1.1.0"
     }
 
     // Release key comes from ~/.gradle/gradle.properties; without it, release builds use the debug key.

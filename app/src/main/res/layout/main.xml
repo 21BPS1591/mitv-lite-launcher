@@ -125,6 +125,17 @@
             android:visibility="gone" />
 
         <ImageButton
+            android:id="@+id/update"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/btn_bg"
+            android:contentDescription="@string/update"
+            android:focusable="true"
+            android:src="@drawable/ic_update"
+            android:visibility="gone" />
+
+        <ImageButton
             android:id="@+id/hidden"
             android:layout_width="44dp"
             android:layout_height="44dp"
