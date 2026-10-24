@@ -43,6 +43,7 @@ private const val MAX_TILE_DP = 160
 private const val MAX_ASPECT = 16f / 9
 private const val MIN_ASPECT = 16f / 9
 private const val TILE_GAP_DP = 10
+private const val PAUSE_GRACE_MS = 15 * 60_000L
 private const val DEFAULT_TILE = 0xFF262D3B.toInt()
 
 class MainActivity : Activity() {
@@ -78,6 +79,7 @@ class MainActivity : Activity() {
     private var placeholderShown = false
     private var shownPlaying: Boolean? = null
     private var browser: MediaBrowser? = null
+    private val hideBar = Runnable { mediaBar.visibility = View.GONE }
     private val controllerCallback = object : MediaController.Callback() {
         override fun onMetadataChanged(metadata: MediaMetadata?) = showTrack()
         override fun onPlaybackStateChanged(state: PlaybackState?) = showTrack()
@@ -251,6 +253,14 @@ class MainActivity : Activity() {
         if (name == null) {
             mediaBar.visibility = View.GONE
             return
+        }
+        // Spotify keeps its last session alive after playback ends. Only a playing session opens the bar;
+        // once shown, a pause keeps it for a while so it can be resumed, then it goes away again.
+        mediaBar.removeCallbacks(hideBar)
+        val playingNow = controller?.playbackState?.state == PlaybackState.STATE_PLAYING
+        if (!playingNow) {
+            if (mediaBar.visibility != View.VISIBLE) return
+            mediaBar.postDelayed(hideBar, PAUSE_GRACE_MS)
         }
         // Playback updates arrive constantly; touching the views only on real changes keeps the marquee
         // running and stops the cover flickering when an update comes without art.
